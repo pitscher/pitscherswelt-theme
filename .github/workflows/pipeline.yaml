@@ -31,3 +31,5 @@ jobs:
           api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
           theme-name: pitscherswelt-theme
+      - name: Send Push Notification
+        uses: techulus/push-github-action@v0.0.2
