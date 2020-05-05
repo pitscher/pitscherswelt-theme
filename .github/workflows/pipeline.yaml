@@ -43,7 +43,7 @@ jobs:
       - name: Build theme
         env:
           NODE_ENV: production
-        run: npx gulp
+        run: gulp zip
       - name: Deploy Ghost Theme
         uses: TryGhost/action-deploy-theme@v1.2.1
         with:
