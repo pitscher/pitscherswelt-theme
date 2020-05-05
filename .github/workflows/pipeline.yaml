@@ -1,0 +1,22 @@
+name: Ghost Theme Pipeline
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Get theme code
+        uses: actions/checkout@master
+      - name: Setup testing environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Run test with gscan
+        run: |
+          npm install --global gscan@latest
+          gscan --v2 --error --verbose $GITHUB_WORKSPACE
+      - name: Ending
+        run: echo "All done."
