@@ -24,8 +24,7 @@ jobs:
     needs: test
     runs-on: ubuntu-18.04
     steps:
-      - name: Get theme code
-        uses: actions/checkout@master
+      - uses: actions/checkout@master
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -35,19 +34,18 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 8.11.1
       - run: npm install
       - name: Build theme
         env:
           NODE_ENV: production
-        run: gulp zip
-      - name: Deploy Ghost Theme
-        uses: TryGhost/action-deploy-theme@v1.2.1
+        run: npx gulp
+      - name: 'Deploy Ghost Theme'
+        uses: TryGhost/action-deploy-theme@v1.2.0
         with:
           api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
-          theme-name: "pitscherswelt-theme"
-
+          theme-name: pitscherswelt-theme
