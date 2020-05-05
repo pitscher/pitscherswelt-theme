@@ -1,8 +1,8 @@
 name: Ghost Theme Pipeline
 on:
-  push:
-    branches:
-      - master
+  release:
+    types:
+      - published
 
 jobs:
   test:
