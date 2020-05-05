@@ -1,0 +1,6 @@
+User-agent: *
+Sitemap: https://pitscher.com/sitemap.xml
+Disallow: /ghost/
+Disallow: /p/
+Disallow: /impressum/
+Disallow: /datenschutz/

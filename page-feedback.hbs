@@ -1,0 +1,56 @@
+{{!< default}}
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+
+{{!-- The big featured header, it uses blog cover image as a BG if available --}}
+<header class="site-header outer">
+    <div class="inner">
+        {{> "site-nav"}}
+    </div>
+</header>
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+        <!-- Custom HTML content of the page here -->
+        <div class="pw-contact-clean">
+            <form data-bss-subject="PitschersWelt Blog: Leser Nachricht" data-bss-recipient="989c911d6c78f9da5616503386880a9a" class="pw-feedback-form">
+                <h2 class="pw-feedback-title">Den Autor erreichen</h2>
+                <div class="form-group"><label>Name</label><input class="pw-feedback-form pw-feedback-fields" type="text" required></div>
+                <div class="form-group"><label>E-Mail-Adresse</label><input class="pw-feedback-form pw-feedback-fields" type="text"><small class="form-text text-muted">Muss nicht angegeben werden. Ist jedoch zu empfehlen.</small></div>
+                <div class="form-group"><label>Art der Nachricht</label><select class="pw-feedback-form pw-feedback-fields" onchange="displayUrlField(this)"><option value="Themenvorschlag" selected>Themenvorschlag</option><option value="Feedback">Feedback</option><option value="Abuse">Abuse</option></select></div>
+                <div class="form-group" id="postUrlField" style="display: none !important;"><input class="pw-feedback-form pw-feedback-fields" type="url" placeholder="https://pitscher.com/..."><small class="form-text text-muted">Falls sich die Nachricht auf einen konkreten Beitrag bezieht, kann er hier angegeben werden.</small></div>
+                <div class="form-group"><label>Nachricht</label><textarea class="pw-feedback-form pw-feedback-fields" id="message" name="message" placeholder="Über Rückmeldungen von Lesern freue ich mich. Unabhänig davon, was Sie hier schreiben: Ich lese es gern." rows="7" required></textarea></div>
+                <div class="form-group"><button class="pw-feedback-button-normal" id="send-button" type="submit">Senden</button></div>
+            </form>
+        </div>
+
+        <script>
+        function displayUrlField(that) {
+            if (that.value == "Feedback" || that.value == "Abuse") {
+                document.getElementById("postUrlField").style.display = "block";
+            } else {
+                document.getElementById("postUrlField").style.display = "none";
+            }
+            if (that.value == "Abuse") {
+                document.getElementById("message").placeholder='Melden Sie einen Missbrauch des Blogs. Natürlich werden Inhalte vor einer Veröffentlichung geprüft. Sollte doch etwas nicht stimmen, können Sie es hier melden.';
+                document.getElementById("send-button").innerText = "Melden";
+                document.getElementById("send-button").className = 'pw-feedback-button-abuse';
+            } else {
+                document.getElementById("message").placeholder='Über Rückmeldungen von Lesern freue ich mich. Unabhänig davon, was Sie hier schreiben: Ich lese es gern.';
+                document.getElementById("send-button").innerText = "Senden";
+                document.getElementById("send-button").className = 'pw-feedback-button-normal';
+            }
+        }
+        </script>
+    </div>
+</main>
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+<script>
+$(function() {
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+});
+</script>
+{{/contentFor}}
