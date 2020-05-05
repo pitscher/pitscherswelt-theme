@@ -20,3 +20,34 @@ jobs:
           gscan --v2 --error --verbose $GITHUB_WORKSPACE
       - name: Ending
         run: echo "All done."
+  deploy:
+    needs: test
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Get theme code
+        uses: actions/checkout@master
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install
+      - name: Build theme
+        env:
+          NODE_ENV: production
+        run: npx gulp
+      - name: Deploy Ghost Theme
+        uses: TryGhost/action-deploy-theme@v1.2.1
+        with:
+          api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
+          api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
+          theme-name: "pitscherswelt-theme"
+
